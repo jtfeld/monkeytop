@@ -1,0 +1,37 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# monkeybottom
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+## Before tourney:
+
+* get list of poolers and email addresses, populate google sheet
+
+## To update each round: 
+
+### In UI section:
+
+* Update ROUND variable at beginning of app.R code to indicate which round we're dealing with
+* Comment out inputs for all games (and the actionButton command) in previous round 
+* Uncomment and manually update the teams for each game in the upcoming round
+* uncomment code to plot histogram of scores from previous round
+
+### In server section: 
+
+* Starting round of 16, comment/ uncomment input validation to ensure correct data are entered for scores
+* uncomment code to generate histogram of scores for previous round
+* comment/ uncomment code that generates data frame with user's choices (i.e., e.g. for round of 32, games s5-s8, w5-w8, etc must be commented out)
+  
