@@ -1,5 +1,3 @@
-
-
 library(shiny)
 library(dplyr)
 library(tidyr)
@@ -13,8 +11,10 @@ library(shinyvalidate)
 library(plotly)
 
 
-gs4_auth(cache = ".secrets", email = "jfeldblum@gmail.com")
+# grants access to all private google sheets
+gs4_auth(cache = ".secrets", email = "whitmore.mattie@gmail.com")
 
+# The scores spreadsheet, globally visible
 name_sheet = "10xNQxGHo-sqMcnBN1eWg79pKT5gjaPV0lorzkvbyDEs"
 
 ballers = read_sheet(name_sheet) %>% 

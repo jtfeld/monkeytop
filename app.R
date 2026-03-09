@@ -2,28 +2,8 @@
 #    http://shiny.rstudio.com/
 #
 
-# library(shiny)
-# library(dplyr)
-# library(tidyr)
-# library(googlesheets4)
-# library(bslib)
-# library(shinyWidgets)
-# library(shinyjs)
-# library(ggplot2)
-# library(scales)
-# library(shinyvalidate)
-# library(plotly)
-
-# brack = readRDS("./data/bracket2023.rds")
 
 ROUND = 1  # <-- UPDATE MANUALLY FOR EACH ROUND
-
-# gs4_auth(cache = ".secrets", email = "jfeldblum@gmail.com")
-# 
-# name_sheet = "10xNQxGHo-sqMcnBN1eWg79pKT5gjaPV0lorzkvbyDEs"
-# 
-# ballers = read_sheet(name_sheet) %>% 
-#   as.data.frame()
 
 # add css styling to force names dropdown menu to actually drop downward
 css_ddown <- "
@@ -31,7 +11,7 @@ css_ddown <- "
             bottom: 100%;
           }"
 
-
+# TODO can this be deleted?
 # if uncommented, this calculates cumulative scores and plots it interactively
 # on the first tab.  But it makes the app open more slowly so I think not worth 
 # it, especially if we get more poolers this time around!
@@ -53,15 +33,22 @@ css_ddown <- "
 # in the app, so it didn't need to be recalculated every time the app was loaded:
 # cumscores = readRDS("./data/cumscores.rds")
 
-# leaving this here (instead of global.R) so each user gets latest list of picks when they open the app
-sheet_id <- "1BhRMSek1hv7UCQQY76uXYIwbwS6zH48Ir0m_SG2pzDE"
+# This is the brackts to pick from
+bracket_id <- "19uxdcVHtyWFAKidNxK4Ydx29lIS8DFp_PxvXSAHRRVo"
+# TODO use this variable instead of ROUND so we can be dynamic
+round <- read_sheet(bracket_id, sheet="round")$round[1]
+# TODO get the bracket for each round, current pattern will return NA in pick feild if can't find index, this seems fine
+bracket_final <- read_sheet(bracket_id, sheet = "Final")
+bracket_r4 <- read_sheet(bracket_id, sheet = "R4")
 
-pickssofar = read_sheet(sheet_id, sheet = ROUND) %>% # USES UPDATED ROUND NUMBER MANUALLY INPUTTED ABOVE (DON'T FORGET!)
+# This is the spreadsheet housing picks per round per player
+# leaving this here (instead of global.R) so each user gets latest list of picks when they open the app
+submission_sheet_id <- "1BhRMSek1hv7UCQQY76uXYIwbwS6zH48Ir0m_SG2pzDE"
+pickssofar = read_sheet(submission_sheet_id, sheet = ROUND) %>% # USES UPDATED ROUND NUMBER MANUALLY INPUTTED ABOVE (DON'T FORGET!)
   as.data.frame() %>%
   pull(name) %>%
   sort()
 
-# scores_url = a("Google Homepage", href="https://www.google.com/")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -442,44 +429,27 @@ ui <- fluidPage(
                   # ----------------- Final 4 ------------------
                     tabPanel("Final 4", 
                              
-                             plotOutput("r5_scores")
-                             # card(card_header("FF g1"),
-                             #      selectInput("s1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Auburn", "2. Michigan St.")),
-                             #      numericInput("s1score", label = "spread", 
-                             #                   value = "")#, placeholder = "point spread")
-                             # ),
+                             plotOutput("r5_scores"),
                              
-                             # card(card_header("FF g1"),
-                             #      selectInput("w1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Florida", "1. Auburn")),
-                             #      numericInput("w1score", label = "spread",
-                             #                   value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # card(card_header("FF g2"),
-                             #      selectInput("e1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Duke", "1. Houston")),
-                             #      numericInput("e1score", label = "spread", 
-                             #                   value = "")#, placeholder = "point spread")
-                             # ),
-                             
-                             # card(card_header("Midwest g1"),
-                             #      selectInput("mw1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Houston", "2. Tennessee")),
-                             #      numericInput("mw1score", label = "spread", 
-                             #                   value = "")#, placeholder = "point spread")
-                             # ),
-                             
-                             # textInput("usernote", 
-                             #           label = "Additional notes:",
-                             #           placeholder = "other comments, notes, etc?"),
-                             # 
-                             # actionButton("submit", "Submit", icon = icon("upload"))
+                             # TODO dry this up, maybe lapply?
+                             card(card_header(bracket_r4$header[1]),
+                                  selectInput(bracket_r4$header[1],
+                                              label = bracket_r4$label[1],
+                                              choices = c(bracket_r4$`choice 1`[1], bracket_r4$`choice 2`[1])),
+                                  numericInput("w1score", label = "spread", value = "")
+                             ),
+                             card(card_header(bracket_r4$header[2]),
+                                  selectInput(bracket_r4$header[2],
+                                             label = bracket_r4$label[2],
+                                             choices = c(bracket_r4$`choice 1`[2], bracket_r4$`choice 2`[2])),
+                                  numericInput("e1score", label = "spread", value = "")
+                             ),
+
+                             textInput("usernote",
+                                       label = "Additional notes:",
+                                       placeholder = "other comments, notes, etc?"),
+
+                             actionButton("submit", "Submit", icon = icon("upload"))
                              
                              ),
 
@@ -487,21 +457,20 @@ ui <- fluidPage(
 
                     tabPanel("Title Game",
                              
-                             plotOutput("r6_scores")
-                             # card(card_header("Championship game"),
-                             #      selectInput("w1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Florida", "1. Houston")),
-                             #      numericInput("w1score", label = "spread",
-                             #                   value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # textInput("usernote", 
-                             #           label = "Additional notes:",
-                             #           placeholder = "other comments, notes, etc?"),
-                             # 
-                             # actionButton("submit", "Submit", icon = icon("upload"))
-                             
+                             plotOutput("r6_scores"),
+                             card(card_header("Championship game"),
+                                  selectInput("w1",
+                                              label = bracket_final$label,
+                                              choices = c(bracket_final$`choice 1`, bracket_final$`choice 2`)),
+                                  numericInput("w1score", label = "spread",
+                                               value = "")#, placeholder = "point spread")
+                             ),
+
+                             textInput("usernote",
+                                       label = "Additional notes:",
+                                       placeholder = "other comments, notes, etc?"),
+
+                             actionButton("submit", "Submit", icon = icon("upload"))
                              )))
     )
 )
@@ -606,7 +575,7 @@ server <- function(input, output) {
   user_selections <- reactive({
     
     # build data frame to add to picks sheet (comment out later round games as pool shrinks)
-    
+    # TODO make sure none of these variable ids have been messed up when changing the card definitions
     data.frame(
       name = input$Name,
       submit_time = lubridate::now(),
@@ -670,7 +639,7 @@ server <- function(input, output) {
   observeEvent(input$picks_in, {
     
     pickssofar = # "See you March 2026"
-      read_sheet(sheet_id, sheet = ROUND) %>% # UPDATED ROUND (MANUALLY INPUT ABOVE)
+      read_sheet(submission_sheet_id, sheet = ROUND) %>% # UPDATED ROUND (MANUALLY INPUT ABOVE)
       as.data.frame() %>%
       pull(name) %>%
       unique() %>%
@@ -702,7 +671,7 @@ server <- function(input, output) {
   
   # append picks data to picks google sheet, disable submission button afterwards!
   observeEvent(input$submit, {
-    sheet_append(ss = sheet_id, data = user_selections(), sheet = ROUND) # updated above manually before each new round!
+    sheet_append(ss = submission_sheet_id, data = user_selections(), sheet = ROUND) # updated above manually before each new round!
     
     shinyjs::disable("submit")
   
