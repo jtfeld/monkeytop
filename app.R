@@ -3,7 +3,7 @@
 #
 
 
-ROUND = 1  # <-- UPDATE MANUALLY FOR EACH ROUND
+ROUND = 3 # <-- UPDATE MANUALLY FOR EACH ROUND
 
 # add css styling to force names dropdown menu to actually drop downward
 css_ddown <- "
@@ -104,7 +104,7 @@ ui <- fluidPage(
                   # ),
                   
                   tabsetPanel(
-                    
+                    id = "my_tabs",
                     # ---------------- R64 ----------------------------------
                     # ggplot update means we get an error here, probably don't need to plot cumulative scores anyway (slows down app opening)
                     # tabPanel("Cumulative scores", 
@@ -113,7 +113,7 @@ ui <- fluidPage(
                     #          
                     #          ),
                     tabPanel("Round of 64" ,
-                             
+                             value = "64",
                              # plotOutput("r1_scores")
                              
                              # games (just have to auto-add teams here): 
@@ -236,8 +236,8 @@ ui <- fluidPage(
                     
                     # ------------------- R32 --------------------------------------
                     
-                    tabPanel("Round of 32"  ,
-                             
+                    tabPanel("Round of 32",
+                             value = "32",
                              plotOutput("r2_scores")
                              
                              # selectInput("s1",
@@ -309,6 +309,7 @@ ui <- fluidPage(
                     # ------------------- R16 ----------------------------------
                     
                     tabPanel("Sweet 16" ,
+                             value = "sweet_16",
                              plotOutput("r3_scores")
                     #          
                     #          
@@ -382,7 +383,7 @@ ui <- fluidPage(
                     
 # ----------- Elite 8 -------------------------------------------------
                     tabPanel("Elite 8" ,
-                             
+                             value = "elite_8",
                              plotOutput("r4_scores")
                              
                              
@@ -428,6 +429,7 @@ ui <- fluidPage(
 
                   # ----------------- Final 4 ------------------
                     tabPanel("Final 4", 
+                             value = "final_4",
                              
                              plotOutput("r5_scores"),
                              
@@ -456,6 +458,7 @@ ui <- fluidPage(
                   # ---------------- title game -------------
 
                     tabPanel("Title Game",
+                             value = "title",
                              
                              plotOutput("r6_scores"),
                              card(card_header("Championship game"),
@@ -674,6 +677,7 @@ server <- function(input, output) {
     sheet_append(ss = submission_sheet_id, data = user_selections(), sheet = ROUND) # updated above manually before each new round!
     
     shinyjs::disable("submit")
+  })
   
   observe({
     if (ROUND == 1) {
