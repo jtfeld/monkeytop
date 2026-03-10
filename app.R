@@ -675,6 +675,56 @@ server <- function(input, output) {
     
     shinyjs::disable("submit")
   
+  observe({
+    if (ROUND == 1) {
+      showTab(inputId = "my_tabs", target = "64")
+      hideTab(inputId = "my_tabs", target = "32")
+      hideTab(inputId = "my_tabs", target = "sweet_16")
+      hideTab(inputId = "my_tabs", target = "elite_8")
+      hideTab(inputId = "my_tabs", target = "final_4")
+      hideTab(inputId = "my_tabs", target = "title")
+    } 
+    if (ROUND == 2) {
+      showTab(inputId = "my_tabs", target = "64")
+      showTab(inputId = "my_tabs", target = "32")
+      hideTab(inputId = "my_tabs", target = "sweet_16")
+      hideTab(inputId = "my_tabs", target = "elite_8")
+      hideTab(inputId = "my_tabs", target = "final_4")
+      hideTab(inputId = "my_tabs", target = "title")
+    } 
+    if (ROUND == 3) {
+      showTab(inputId = "my_tabs", target = "64")
+      showTab(inputId = "my_tabs", target = "32")
+      showTab(inputId = "my_tabs", target = "sweet_16")
+      hideTab(inputId = "my_tabs", target = "elite_8")
+      hideTab(inputId = "my_tabs", target = "final_4")
+      hideTab(inputId = "my_tabs", target = "title")
+    } 
+    if (ROUND == 4) {
+      showTab(inputId = "my_tabs", target = "64")
+      showTab(inputId = "my_tabs", target = "32")
+      showTab(inputId = "my_tabs", target = "sweet_16")
+      showTab(inputId = "my_tabs", target = "elite_8")
+      hideTab(inputId = "my_tabs", target = "final_4")
+      hideTab(inputId = "my_tabs", target = "title")
+    } 
+    if (ROUND == 5) {
+      showTab(inputId = "my_tabs", target = "64")
+      showTab(inputId = "my_tabs", target = "32")
+      showTab(inputId = "my_tabs", target = "sweet_16")
+      showTab(inputId = "my_tabs", target = "elite_8")
+      showTab(inputId = "my_tabs", target = "final_4")
+      hideTab(inputId = "my_tabs", target = "title")
+    }
+    if (ROUND == 6) {
+      showTab(inputId = "my_tabs", target = "64")
+      showTab(inputId = "my_tabs", target = "32")
+      showTab(inputId = "my_tabs", target = "sweet_16")
+      showTab(inputId = "my_tabs", target = "elite_8")
+      showTab(inputId = "my_tabs", target = "final_4")
+      showTab(inputId = "my_tabs", target = "title")
+    }
+    
     })
   
   
