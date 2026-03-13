@@ -3,8 +3,6 @@
 #
 
 
-ROUND = 3 # <-- UPDATE MANUALLY FOR EACH ROUND
-
 # add css styling to force names dropdown menu to actually drop downward
 css_ddown <- "
           .vscomp-dropbox-container {
@@ -33,13 +31,15 @@ css_ddown <- "
 # in the app, so it didn't need to be recalculated every time the app was loaded:
 # cumscores = readRDS("./data/cumscores.rds")
 
-# This is the brackts to pick from
+# This is the brackets to pick from
 bracket_id <- "19uxdcVHtyWFAKidNxK4Ydx29lIS8DFp_PxvXSAHRRVo"
-# TODO use this variable instead of ROUND so we can be dynamic
-round <- read_sheet(bracket_id, sheet="round")$round[1]
-# TODO get the bracket for each round, current pattern will return NA in pick feild if can't find index, this seems fine
+ROUND <- read_sheet(bracket_id, sheet="round")$round[1]
 bracket_final <- read_sheet(bracket_id, sheet = "Final")
 bracket_r4 <- read_sheet(bracket_id, sheet = "R4")
+bracket_r8 <- read_sheet(bracket_id, sheet = "R8")
+bracket_r16 <- read_sheet(bracket_id, sheet = "R16")
+bracket_r32 <- read_sheet(bracket_id, sheet = "R32")
+bracket_r64 <- read_sheet(bracket_id, sheet = "R64")
 
 # This is the spreadsheet housing picks per round per player
 # leaving this here (instead of global.R) so each user gets latest list of picks when they open the app
@@ -116,113 +116,113 @@ ui <- fluidPage(
                              value = "64",
                              # plotOutput("r1_scores")
                              
-                             # games (just have to auto-add teams here): 
+                             # games
                              
-                             selectInput("s1",
-                                         label = "South, 1-16",
-                                         choices = c("1. Auburn", "16. Alabama St.")),
-                             selectInput("s2",
-                                         label = "South, 8-9",
-                                         choices = c("8. Louisville", "9. Creighton")),
-                             selectInput("s3",
-                                         label = "South, 5-12",
-                                         choices = c("5. Michigan", "12. UC San Diego")),
-                             selectInput("s4",
-                                         label = "South, 4-13",
-                                         choices = c("4. Texas A&M", "13. Yale")),
-                             selectInput("s5",
-                                         label = "South, 6-11",
-                                         choices = c("6. Ole Miss", "11. UNC")),
-                             selectInput("s6",
-                                         label = "South, 3-14",
-                                         choices = c("3. Iowa St", "14. Lipscomb")),
-                             selectInput("s7",
-                                         label = "South, 7-10",
-                                         choices = c("7. Marquette", "10. New Mexico")),
-                             selectInput("s8",
-                                         label = "South, 2-15",
-                                         choices = c("2. Michigan St.", "15. Bryant")),
+                             selectInput(bracket_r64$id[1],
+                                         label = bracket_r64$label[1],
+                                         choices = c(bracket_r64$`choice 1`[1], bracket_r64$`choice 2`[1])),
+                             selectInput(bracket_r64$id[2],
+                                         label = bracket_r64$label[2],
+                                         choices = c(bracket_r64$`choice 1`[2], bracket_r64$`choice 2`[2])),
+                             selectInput(bracket_r64$id[3],
+                                         label = bracket_r64$label[3],
+                                         choices = c(bracket_r64$`choice 1`[3], bracket_r64$`choice 2`[3])),
+                             selectInput(bracket_r64$id[4],
+                                         label = bracket_r64$label[4],
+                                         choices = c(bracket_r64$`choice 1`[4], bracket_r64$`choice 2`[4])),
+                             selectInput(bracket_r64$id[5],
+                                         label = bracket_r64$label[5],
+                                         choices = c(bracket_r64$`choice 1`[5], bracket_r64$`choice 2`[5])),
+                             selectInput(bracket_r64$id[6],
+                                         label = bracket_r64$label[6],
+                                         choices = c(bracket_r64$`choice 1`[6], bracket_r64$`choice 2`[6])),
+                             selectInput(bracket_r64$id[7],
+                                         label = bracket_r64$label[7],
+                                         choices = c(bracket_r64$`choice 1`[7], bracket_r64$`choice 2`[7])),
+                             selectInput(bracket_r64$id[8],
+                                         label = bracket_r64$label[8],
+                                         choices = c(bracket_r64$`choice 1`[8], bracket_r64$`choice 2`[8])),
 
                              tags$hr(style="border-color: black;"),
 
-                             selectInput("w1",
-                                         label = "West, 1-16",
-                                         choices = c("1. Florida", "16. Norfolk St.")),
-                             selectInput("w2",
-                                         label = "West, 8-9",
-                                         choices = c("8. UConn", "9. Oklahoma")),
-                             selectInput("w3",
-                                         label = "West, 5-12",
-                                         choices = c("5. Memphis", "12. Colorado St.")),
-                             selectInput("w4",
-                                         label = "West, 4-13",
-                                         choices = c("4. Maryland", "13. Grand Canyon")),
-                             selectInput("w5",
-                                         label = "West, 6-11",
-                                         choices = c("6. Mizzou", "11. Drake")),
-                             selectInput("w6",
-                                         label = "West, 3-14",
-                                         choices = c("3. Texas Tech", "14. UNC Wilmington")),
-                             selectInput("w7",
-                                         label = "West, 7-10",
-                                         choices = c("7. Kansas", "10. Arkansas")),
-                             selectInput("w8",
-                                         label = "West, 2-15",
-                                         choices = c("2. St. John's", "15. Omaha")),
+                             selectInput(bracket_r64$id[9],
+                                         label = bracket_r64$label[9],
+                                         choices = c(bracket_r64$`choice 1`[9], bracket_r64$`choice 2`[9])),
+                             selectInput(bracket_r64$id[10],
+                                         label = bracket_r64$label[10],
+                                         choices = c(bracket_r64$`choice 1`[10], bracket_r64$`choice 2`[10])),
+                             selectInput(bracket_r64$id[11],
+                                         label = bracket_r64$label[11],
+                                         choices = c(bracket_r64$`choice 1`[11], bracket_r64$`choice 2`[11])),
+                             selectInput(bracket_r64$id[12],
+                                         label = bracket_r64$label[12],
+                                         choices = c(bracket_r64$`choice 1`[12], bracket_r64$`choice 2`[12])),
+                             selectInput(bracket_r64$id[13],
+                                         label = bracket_r64$label[13],
+                                         choices = c(bracket_r64$`choice 1`[13], bracket_r64$`choice 2`[13])),
+                             selectInput(bracket_r64$id[14],
+                                         label = bracket_r64$label[14],
+                                         choices = c(bracket_r64$`choice 1`[14], bracket_r64$`choice 2`[14])),
+                             selectInput(bracket_r64$id[15],
+                                         label = bracket_r64$label[15],
+                                         choices = c(bracket_r64$`choice 1`[15], bracket_r64$`choice 2`[15])),
+                             selectInput(bracket_r64$id[16],
+                                         label = bracket_r64$label[16],
+                                         choices = c(bracket_r64$`choice 1`[16], bracket_r64$`choice 2`[15])),
 
                              tags$hr(style="border-color: black;"),
 
-                             selectInput("e1",
-                                         label = "East, 1-16",
-                                         choices = c("1. Duke", "16. American/Mt. St. Mary's")),
-                             selectInput("e2",
-                                         label = "East, 8-9",
-                                         choices = c("8. Miss. St.", "9. Baylor")),
-                             selectInput("e3",
-                                         label = "East, 5-12",
-                                         choices = c("5. Oregon", "12. Liberty")),
-                             selectInput("e4",
-                                         label = "East, 4-13",
-                                         choices = c("4. Arizona", "13. Akron")),
-                             selectInput("e5",
-                                         label = "East, 6-11",
-                                         choices = c("6. BYU", "11. VCU")),
-                             selectInput("e6",
-                                         label = "East, 3-14",
-                                         choices = c("3. Wisconsin", "14. Montana")),
-                             selectInput("e7",
-                                         label = "East, 7-10",
-                                         choices = c("7. Saint Mary's", "10. Vanderbilt")),
-                             selectInput("e8",
-                                         label = "East, 2-15",
-                                         choices = c("2. Alabama", "15. Robert Morris")),
-
+                             selectInput(bracket_r64$id[16],
+                                         label = bracket_r64$label[16],
+                                         choices = c(bracket_r64$`choice 1`[16], bracket_r64$`choice 2`[16])),
+                             selectInput(bracket_r64$id[17],
+                                         label = bracket_r64$label[17],
+                                         choices = c(bracket_r64$`choice 1`[17], bracket_r64$`choice 2`[17])),
+                             selectInput(bracket_r64$id[18],
+                                         label = bracket_r64$label[18],
+                                         choices = c(bracket_r64$`choice 1`[18], bracket_r64$`choice 2`[18])),
+                             selectInput(bracket_r64$id[19],
+                                         label = bracket_r64$label[19],
+                                         choices = c(bracket_r64$`choice 1`[19], bracket_r64$`choice 2`[19])),
+                             selectInput(bracket_r64$id[20],
+                                         label = bracket_r64$label[20],
+                                         choices = c(bracket_r64$`choice 1`[20], bracket_r64$`choice 2`[20])),
+                             selectInput(bracket_r64$id[21],
+                                         label = bracket_r64$label[21],
+                                         choices = c(bracket_r64$`choice 1`[21], bracket_r64$`choice 2`[21])),
+                             selectInput(bracket_r64$id[22],
+                                         label = bracket_r64$label[22],
+                                         choices = c(bracket_r64$`choice 1`[22], bracket_r64$`choice 2`[22])),
+                             selectInput(bracket_r64$id[23],
+                                         label = bracket_r64$label[23],
+                                         choices = c(bracket_r64$`choice 1`[23], bracket_r64$`choice 2`[23])),
+                             
                              tags$hr(style="border-color: black;"),
-
-                             selectInput("mw1",
-                                         label = "MidWest, 1-16",
-                                         choices = c("1. Houston", "16. SIU Edwardsville")),
-                             selectInput("mw2",
-                                         label = "MidWest, 8-9",
-                                         choices = c("8. Gonzaga", "9. Georgia")),
-                             selectInput("mw3",
-                                         label = "MidWest, 5-12",
-                                         choices = c("5. Clemson", "12. McNeese")),
-                             selectInput("mw4",
-                                         label = "MidWest, 4-13",
-                                         choices = c("4. Purdue", "13. High Point")),
-                             selectInput("mw5",
-                                         label = "MidWest, 6-11",
-                                         choices = c("6. Illinois", "11. Texas/Xavier")),
-                             selectInput("mw6",
-                                         label = "MidWest, 3-14",
-                                         choices = c("3. Kentucky", "14. Troy")),
-                             selectInput("mw7",
-                                         label = "MidWest, 7-10",
-                                         choices = c("7. UCLA", "10. Utah St.")),
-                             selectInput("mw8",
-                                         label = "MidWest, 2-15",
-                                         choices = c("2. Tennessee", "15. Wofford")),
+                             
+                             selectInput(bracket_r64$id[24],
+                                         label = bracket_r64$label[24],
+                                         choices = c(bracket_r64$`choice 1`[24], bracket_r64$`choice 2`[24])),
+                             selectInput(bracket_r64$id[25],
+                                         label = bracket_r64$label[25],
+                                         choices = c(bracket_r64$`choice 1`[25], bracket_r64$`choice 2`[25])),
+                             selectInput(bracket_r64$id[26],
+                                         label = bracket_r64$label[26],
+                                         choices = c(bracket_r64$`choice 1`[26], bracket_r64$`choice 2`[26])),
+                             selectInput(bracket_r64$id[27],
+                                         label = bracket_r64$label[27],
+                                         choices = c(bracket_r64$`choice 1`[27], bracket_r64$`choice 2`[27])),
+                             selectInput(bracket_r64$id[28],
+                                         label = bracket_r64$label[28],
+                                         choices = c(bracket_r64$`choice 1`[28], bracket_r64$`choice 2`[28])),
+                             selectInput(bracket_r64$id[29],
+                                         label = bracket_r64$label[29],
+                                         choices = c(bracket_r64$`choice 1`[29], bracket_r64$`choice 2`[29])),
+                             selectInput(bracket_r64$id[30],
+                                         label = bracket_r64$label[30],
+                                         choices = c(bracket_r64$`choice 1`[30], bracket_r64$`choice 2`[30])),
+                             selectInput(bracket_r64$id[31],
+                                         label = bracket_r64$label[31],
+                                         choices = c(bracket_r64$`choice 1`[31], bracket_r64$`choice 2`[31])),
 
                              tags$hr(style="border-color: black;"),
 
@@ -238,192 +238,188 @@ ui <- fluidPage(
                     
                     tabPanel("Round of 32",
                              value = "32",
-                             plotOutput("r2_scores")
+                             plotOutput("r2_scores"),
                              
-                             # selectInput("s1",
-                             #             label = "South g1",
-                             #             choices = c("1. Auburn", "9. Creighton")),
-                             # selectInput("s2",
-                             #             label = "South g2",
-                             #             choices = c("5. Michigan", "4. Texas A&M")),
-                             # selectInput("s3",
-                             #             label = "South g3",
-                             #             choices = c("6. Ole Miss", "3. Iowa St.")),
-                             # selectInput("s4",
-                             #             label = "South g4",
-                             #             choices = c("10. New Mexico", "2. Michigan St.")),
-                             # 
-                             # tags$hr(style="border-color: black;"),
-                             # 
-                             # selectInput("w1",
-                             #             label = "West g1",
-                             #             choices = c("1. Florida", "8. UConn")),
-                             # selectInput("w2",
-                             #             label = "West g2",
-                             #             choices = c("12. Colorado St.", "4. Maryland")),
-                             # selectInput("w3",
-                             #             label = "West g3",
-                             #             choices = c("11. Drake", "3. Texas Tech")),
-                             # selectInput("w4",
-                             #             label = "West g4",
-                             #             choices = c("10. Arkansas", "2. St. John's")),
-                             # 
-                             # tags$hr(style="border-color: black;"),
-                             # 
-                             # selectInput("e1",
-                             #             label = "East g1",
-                             #             choices = c("1. Duke", "9. Baylor")),
-                             # selectInput("e2",
-                             #             label = "East g2",
-                             #             choices = c("5. Oregon", "4. Arizona")),
-                             # selectInput("e3",
-                             #             label = "East g3",
-                             #             choices = c("6. BYU", "3. Wisconsin")),
-                             # selectInput("e4",
-                             #             label = "East g4",
-                             #             choices = c("7. St. Mary's", "2. Alabama")),
-                             # 
-                             # tags$hr(style="border-color: black;"),
-                             # 
-                             # selectInput("mw1",
-                             #             label = "MidWest g1",
-                             #             choices = c("1. Houston", "8. Gonzaga")),
-                             # selectInput("mw2",
-                             #             label = "MidWest g2",
-                             #             choices = c("12. McNeese", "4. Purdue")),
-                             # selectInput("mw3",
-                             #             label = "MidWest g3",
-                             #             choices = c("6. Illinois", "3. Kentucky")),
-                             # selectInput("mw4",
-                             #             label = "MidWest g4",
-                             #             choices = c("7. UCLA", "2. Tennessee")),
-                             # 
-                             # tags$hr(style="border-color: black;"),
-                             # 
-                             # textInput("usernote", 
-                             #           label = "Additional notes:",
-                             #           placeholder = "other comments, notes, etc?"),
-                             # 
-                             # actionButton("submit", "Submit", icon = icon("upload"))
+                             selectInput(bracket_r32$id[1],
+                                         label = bracket_r32$label[1],
+                                         choices = c(bracket_r32$`choice 1`[1], bracket_r32$`choice 2`[1])),
+                             selectInput(bracket_r32$id[2],
+                                         label = bracket_r32$label[2],
+                                         choices = c(bracket_r32$`choice 1`[2], bracket_r32$`choice 2`[2])),
+                             selectInput(bracket_r32$id[3],
+                                         label = bracket_r32$label[3],
+                                         choices = c(bracket_r32$`choice 1`[3], bracket_r32$`choice 2`[3])),
+                             selectInput(bracket_r32$id[4],
+                                         label = bracket_r32$label[4],
+                                         choices = c(bracket_r32$`choice 1`[4], bracket_r32$`choice 2`[4])),
+
+                             tags$hr(style="border-color: black;"),
+
+                             selectInput(bracket_r32$id[5],
+                                         label = bracket_r32$label[5],
+                                         choices = c(bracket_r32$`choice 1`[5], bracket_r32$`choice 2`[5])),
+                             selectInput(bracket_r32$id[6],
+                                         label = bracket_r32$label[6],
+                                         choices = c(bracket_r32$`choice 1`[6], bracket_r32$`choice 2`[6])),
+                             selectInput(bracket_r32$id[7],
+                                         label = bracket_r32$label[7],
+                                         choices = c(bracket_r32$`choice 1`[7], bracket_r32$`choice 2`[7])),
+                             selectInput(bracket_r32$id[8],
+                                         label = bracket_r32$label[8],
+                                         choices = c(bracket_r32$`choice 1`[8], bracket_r32$`choice 2`[8])),
+                             
+                             tags$hr(style="border-color: black;"),
+
+                             selectInput(bracket_r32$id[9],
+                                         label = bracket_r32$label[9],
+                                         choices = c(bracket_r32$`choice 1`[9], bracket_r32$`choice 2`[9])),
+                             selectInput(bracket_r32$id[10],
+                                         label = bracket_r32$label[10],
+                                         choices = c(bracket_r32$`choice 1`[10], bracket_r32$`choice 2`[10])),
+                             selectInput(bracket_r32$id[11],
+                                         label = bracket_r32$label[11],
+                                         choices = c(bracket_r32$`choice 1`[11], bracket_r32$`choice 2`[11])),
+                             selectInput(bracket_r32$id[12],
+                                         label = bracket_r32$label[12],
+                                         choices = c(bracket_r32$`choice 1`[12], bracket_r32$`choice 2`[12])),
+
+                             tags$hr(style="border-color: black;"),
+
+                             selectInput(bracket_r32$id[13],
+                                         label = bracket_r32$label[13],
+                                         choices = c(bracket_r32$`choice 1`[13], bracket_r32$`choice 2`[13])),
+                             selectInput(bracket_r32$id[14],
+                                         label = bracket_r32$label[14],
+                                         choices = c(bracket_r32$`choice 1`[14], bracket_r32$`choice 2`[14])),
+                             selectInput(bracket_r32$id[15],
+                                         label = bracket_r32$label[15],
+                                         choices = c(bracket_r32$`choice 1`[15], bracket_r32$`choice 2`[15])),
+                             selectInput(bracket_r32$id[16],
+                                         label = bracket_r32$label[16],
+                                         choices = c(bracket_r32$`choice 1`[16], bracket_r32$`choice 2`[15])),
+
+                             tags$hr(style="border-color: black;"),
+
+                             textInput("usernote",
+                                       label = "Additional notes:",
+                                       placeholder = "other comments, notes, etc?"),
+
+                             actionButton("submit", "Submit", icon = icon("upload"))
                              ),
                     # ------------------- R16 ----------------------------------
                     
                     tabPanel("Sweet 16" ,
                              value = "sweet_16",
-                             plotOutput("r3_scores")
-                    #          
-                    #          
-                    #          card(card_header("South g1"),
-                    #               selectInput("s1",
-                    #                           label = "Pick",
-                    #                           choices = c("1. Auburn", "5. Michigan")),
-                    #               numericInput("s1score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #               ),
-                    #          card(card_header("South g2"),
-                    #               selectInput("s2",
-                    #                           label = "Pick",
-                    #                           choices = c("6. Ole Miss", "2. Michigan St.")),
-                    #               numericInput("s2score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          
-                    #          card(card_header("West g1"),
-                    #               selectInput("w1",
-                    #                           label = "Pick",
-                    #                           choices = c("1. Florida", "4. Maryland")),
-                    #               numericInput("w1score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          card(card_header("West g2"),
-                    #               selectInput("w2",
-                    #                           label = "Pick",
-                    #                           choices = c("3. Texas Tech", "10. Arkansas")),
-                    #               numericInput("w2score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          
-                    #          card(card_header("East g1"),
-                    #               selectInput("e1",
-                    #                           label = "Pick",
-                    #                           choices = c("1. Duke", "4. Zona")),
-                    #               numericInput("e1score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          card(card_header("East g2"),
-                    #               selectInput("e2",
-                    #                           label = "Pick",
-                    #                           choices = c("6. BYU", "2. Alabama")),
-                    #               numericInput("e2score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          
-                    #          card(card_header("Midwest g1"),
-                    #               selectInput("mw1",
-                    #                           label = "Pick",
-                    #                           choices = c("1. Houston", "4. Purdue")),
-                    #               numericInput("mw1score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ),
-                    #          card(card_header("Midwest g2"),
-                    #               selectInput("mw2",
-                    #                           label = "Pick",
-                    #                           choices = c("3. Kentucky", "2. Tennessee")),
-                    #               numericInput("mw2score", label = "spread", 
-                    #                         value = "")#, placeholder = "point spread")
-                    #          ), 
-                    #          
-                    #          textInput("usernote", 
-                    #                    label = "Additional notes:",
-                    #                    placeholder = "other comments, notes, etc?"),
-                    #          
-                    #          actionButton("submit", "Submit", icon = icon("upload"))
+                             plotOutput("r3_scores"),
+                             card(card_header(bracket_r16$header[1]),
+                                  selectInput(bracket_r16$id[1],
+                                              label = bracket_r16$label[1],
+                                              choices = c(bracket_r16$`choice 1`[1], bracket_r16$`choice 2`[1])),
+                                  numericInput("s1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                                  ),
+                             card(card_header(bracket_r16$header[2]),
+                                  selectInput(bracket_r16$id[2],
+                                              label = bracket_r16$label[2],
+                                              choices = c(bracket_r16$`choice 1`[2], bracket_r16$`choice 2`[2])),
+                                  numericInput("s2score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r16$header[3]),
+                                  selectInput(bracket_r16$id[3],
+                                              label = bracket_r16$label[3],
+                                              choices = c(bracket_r16$`choice 1`[3], bracket_r16$`choice 2`[3])),
+                                  numericInput("w1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+                             card(card_header(bracket_r16$header[4]),
+                                  selectInput(bracket_r16$id[4],
+                                              label = bracket_r16$label[4],
+                                              choices = c(bracket_r16$`choice 1`[4], bracket_r16$`choice 2`[4])),
+                                  numericInput("w2score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r16$header[5]),
+                                  selectInput(bracket_r16$id[5],
+                                              label = bracket_r16$label[5],
+                                              choices = c(bracket_r16$`choice 1`[5], bracket_r16$`choice 2`[5])),
+                                  numericInput("e1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+                             card(card_header(bracket_r16$header[6]),
+                                  selectInput(bracket_r16$id[6],
+                                              label = bracket_r16$label[6],
+                                              choices = c(bracket_r16$`choice 1`[6], bracket_r16$`choice 2`[6])),
+                                  numericInput("e2score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r16$header[7]),
+                                  selectInput(bracket_r16$id[7],
+                                              label = bracket_r16$label[7],
+                                              choices = c(bracket_r16$`choice 1`[7], bracket_r16$`choice 2`[7])),
+                                  numericInput("mw1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+                             card(card_header(bracket_r16$header[8]),
+                                  selectInput(bracket_r16$id[8],
+                                              label = bracket_r16$label[8],
+                                              choices = c(bracket_r16$`choice 1`[8], bracket_r16$`choice 2`[8])),
+                                  numericInput("mw2score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             textInput("usernote",
+                                       label = "Additional notes:",
+                                       placeholder = "other comments, notes, etc?"),
+
+                             actionButton("submit", "Submit", icon = icon("upload"))
                              
                              ), # once we get here (and start recording spreads, use card())
                     
 # ----------- Elite 8 -------------------------------------------------
                     tabPanel("Elite 8" ,
                              value = "elite_8",
-                             plotOutput("r4_scores")
-                             
-                             
-                             # card(card_header("South g1"),
-                             #      selectInput("s1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Auburn", "2. Michigan St.")),
-                             #      numericInput("s1score", label = "spread", 
-                             #                value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # card(card_header("West g1"),
-                             #      selectInput("w1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Florida", "3. Texas Tech")),
-                             #      numericInput("w1score", label = "spread", 
-                             #                value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # card(card_header("East g1"),
-                             #      selectInput("e1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Duke", "2. Alabama")),
-                             #      numericInput("e1score", label = "spread", 
-                             #                value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # card(card_header("Midwest g1"),
-                             #      selectInput("mw1",
-                             #                  label = "Pick",
-                             #                  choices = c("1. Houston", "2. Tennessee")),
-                             #      numericInput("mw1score", label = "spread", 
-                             #                value = "")#, placeholder = "point spread")
-                             # ),
-                             # 
-                             # textInput("usernote", 
-                             #           label = "Additional notes:",
-                             #           placeholder = "other comments, notes, etc?"),
-                             # 
-                             # actionButton("submit", "Submit", icon = icon("upload"))
+                             plotOutput("r4_scores"),
+                             card(card_header(bracket_r8$header[1]),
+                                  selectInput(bracket_r8$id[1],
+                                              label = bracket_r8$label[1],
+                                              choices = c(bracket_r8$`choice 1`[1], bracket_r8$`choice 2`[1])),
+                                  numericInput("s1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r8$header[2]),
+                                  selectInput(bracket_r8$id[2],
+                                              label = bracket_r8$label[2],
+                                              choices = c(bracket_r8$`choice 1`[2], bracket_r8$`choice 2`[2])),
+                                  numericInput("w1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r8$header[3]),
+                                  selectInput(bracket_r8$id[3],
+                                              label = bracket_r8$label[3],
+                                              choices = c(bracket_r8$`choice 1`[3], bracket_r8$`choice 2`[3])),
+                                  numericInput("e1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             card(card_header(bracket_r8$header[4]),
+                                  selectInput(bracket_r8$id[4],
+                                              label = bracket_r8$label[4],
+                                              choices = c(bracket_r8$`choice 1`[4], bracket_r8$`choice 2`[4])),
+                                  numericInput("mw1score", label = "spread",
+                                            value = "")#, placeholder = "point spread")
+                             ),
+
+                             textInput("usernote",
+                                       label = "Additional notes:",
+                                       placeholder = "other comments, notes, etc?"),
+
+                             actionButton("submit", "Submit", icon = icon("upload"))
                              
                              ),
 
@@ -730,8 +726,6 @@ server <- function(input, output) {
     }
     
     })
-  
-  
 }
 
 # Run the application 
